@@ -1,1 +1,648 @@
-<h1>Tribo das Rosas</h1>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#310d16">
+<title>Tribo das Rosas</title>
+
+<style>
+:root {
+  --vinho: #310d16;
+  --vermelho: #b82435;
+  --dourado: #d8b45a;
+  --creme: #fffaf5;
+}
+
+* { box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--creme);
+  color: #332426;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.7;
+}
+
+body.intro-active { overflow: hidden; }
+
+a { color: inherit; }
+
+.wrap {
+  width: min(1120px, calc(100% - 40px));
+  margin: auto;
+}
+
+/* ABERTURA ANIMADA */
+
+#intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background:
+    radial-gradient(ellipse at center, #591d2a 0%, #310d16 48%, #17070c 100%);
+  transition: opacity 1.4s ease, visibility 1.4s ease;
+}
+
+#intro::before {
+  content: "";
+  position: absolute;
+  width: min(75vw, 650px);
+  aspect-ratio: 1;
+  border: 1px solid rgba(216,180,90,.18);
+  border-radius: 50%;
+  box-shadow:
+    0 0 0 35px rgba(216,180,90,.025),
+    0 0 0 80px rgba(216,180,90,.02),
+    0 0 100px rgba(216,180,90,.12);
+  animation: aura 3s ease-in-out infinite alternate;
+}
+
+#intro-logo {
+  position: relative;
+  z-index: 2;
+  width: min(76vw, 440px);
+  max-height: 65vh;
+  object-fit: contain;
+  filter: drop-shadow(0 0 28px rgba(216,180,90,.15));
+  animation: logoArrival 1.5s cubic-bezier(.2,.8,.2,1) both;
+}
+
+#intro.dissolve #intro-logo {
+  animation: logoDissolve 1.6s ease-in forwards;
+}
+
+#intro.dissolve {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.particle {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  top: 50%;
+  width: var(--size);
+  height: var(--size);
+  border-radius: 50%;
+  background: var(--gold, #e5c46d);
+  box-shadow: 0 0 8px 2px rgba(238,195,91,.75);
+  pointer-events: none;
+  animation: particleBurst var(--duration) ease-out forwards;
+}
+
+@keyframes logoArrival {
+  from { opacity: 0; transform: scale(.68); filter: blur(12px); }
+  to { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+@keyframes logoDissolve {
+  0% { opacity: 1; transform: scale(1); filter: brightness(1); }
+  35% { opacity: .9; filter: brightness(2.8) sepia(.8); }
+  100% { opacity: 0; transform: scale(1.13); filter: brightness(5) blur(14px); }
+}
+
+@keyframes particleBurst {
+  0% {
+    opacity: 0;
+    transform: translate(-50%,-50%) scale(.2);
+  }
+  12% { opacity: 1; }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--x)),
+      calc(-50% + var(--y))
+    ) scale(0);
+  }
+}
+
+@keyframes aura {
+  from { transform: scale(.92); opacity: .55; }
+  to { transform: scale(1.06); opacity: 1; }
+}
+
+#site {
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 1.4s ease, transform 1.4s ease;
+}
+
+#site.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* NAVEGAÇÃO */
+
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(255,250,245,.97);
+  border-bottom: 1px solid #eadbd7;
+  backdrop-filter: blur(12px);
+}
+
+.nav {
+  min-height: 82px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.brand img {
+  display: block;
+  width: 76px;
+  height: 70px;
+  object-fit: contain;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+nav a {
+  text-decoration: none;
+  font-size: 13px;
+}
+
+nav a:hover { color: var(--vermelho); }
+
+nav .contact-link {
+  background: var(--vinho);
+  color: white;
+  padding: 11px 17px;
+}
+
+/* CAPA */
+
+.hero {
+  background: var(--vinho);
+  color: white;
+  overflow: hidden;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  right: -180px;
+  top: -240px;
+  width: 650px;
+  height: 650px;
+  border: 1px solid rgba(216,180,90,.22);
+  border-radius: 50%;
+  box-shadow: 0 0 0 45px rgba(216,180,90,.035),
+              0 0 0 95px rgba(216,180,90,.025);
+}
+
+.hero-grid {
+  min-height: 570px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 40px;
+  padding-top: 60px;
+  padding-bottom: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .22em;
+  color: var(--dourado);
+  font-weight: bold;
+}
+
+h1, h2, h3 {
+  font-family: Georgia, "Times New Roman", serif;
+  font-weight: normal;
+  line-height: 1.15;
+}
+
+h1 {
+  font-size: clamp(44px, 6vw, 74px);
+  letter-spacing: -.035em;
+  margin: 18px 0;
+}
+
+.hero p {
+  color: #eadcde;
+  font-size: 17px;
+  max-width: 480px;
+  margin-bottom: 28px;
+}
+
+.button {
+  display: inline-block;
+  background: var(--vermelho);
+  color: white;
+  padding: 13px 20px;
+  text-decoration: none;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+.hero-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.hero-logo img {
+  width: min(100%, 420px);
+  height: auto;
+  filter: drop-shadow(0 15px 30px rgba(0,0,0,.22));
+}
+
+/* CONTEÚDO */
+
+section { padding: 82px 0; }
+
+.section-label {
+  color: var(--vermelho);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: .2em;
+  font-weight: bold;
+}
+
+.section-title {
+  font-size: clamp(34px, 4.5vw, 52px);
+  color: var(--vinho);
+  margin: 12px 0 20px;
+}
+
+.lead {
+  color: #78686a;
+  font-size: 16px;
+  max-width: 690px;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: .8fr 1.2fr;
+  gap: 75px;
+  align-items: start;
+}
+
+.about-logo img {
+  width: 130px;
+  height: 130px;
+  object-fit: contain;
+}
+
+.about-copy {
+  color: #6f6062;
+  font-size: 15px;
+  line-height: 1.9;
+}
+
+.about-quote {
+  font: 26px/1.5 Georgia, serif;
+  color: var(--vinho);
+}
+
+.video-section { background: #f5e9e6; }
+
+.video-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 30px;
+  margin-bottom: 30px;
+}
+
+.video-heading .lead { max-width: 390px; }
+
+.video-box {
+  padding: 10px;
+  background: #19080d;
+  box-shadow: 0 20px 50px rgba(65,20,29,.13);
+}
+
+video {
+  display: block;
+  width: 100%;
+  max-height: 680px;
+  background: #19080d;
+}
+
+.video-caption {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 14px 5px 3px;
+  color: white;
+  font-size: 11px;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  margin-top: 38px;
+  border-top: 1px solid #e8d9d6;
+  border-bottom: 1px solid #e8d9d6;
+}
+
+.event { padding: 28px 24px 30px 0; }
+
+.event + .event {
+  border-left: 1px solid #e8d9d6;
+  padding-left: 24px;
+}
+
+.event-number {
+  color: var(--vermelho);
+  font: italic 25px Georgia,serif;
+}
+
+.event h3 {
+  color: var(--vinho);
+  font-size: 27px;
+  margin: 12px 0;
+}
+
+.event p {
+  font-size: 14px;
+  color: #78686a;
+}
+
+.gallery { background: white; }
+
+.gallery-note {
+  margin-top: 30px;
+  padding: 28px;
+  border: 1px solid #eadbd7;
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  background: #fffaf7;
+}
+
+.gallery-note img {
+  width: 90px;
+  height: 90px;
+  object-fit: contain;
+}
+
+.gallery-note h3 {
+  font-size: 25px;
+  color: var(--vinho);
+  margin: 0 0 8px;
+}
+
+.gallery-note p {
+  color: #78686a;
+  font-size: 14px;
+  margin: 0;
+}
+
+.contact {
+  background: var(--vinho);
+  color: white;
+  text-align: center;
+  padding: 75px 20px;
+}
+
+.contact .section-label { color: #e9c878; }
+
+.contact h2 {
+  font-size: clamp(35px,5vw,56px);
+  max-width: 760px;
+  margin: 18px auto;
+}
+
+.contact p {
+  max-width: 580px;
+  color: #eadcde;
+  margin: 0 auto 28px;
+}
+
+.contact .button {
+  background: white;
+  color: var(--vinho);
+}
+
+footer {
+  background: #20080e;
+  color: #d9c4c7;
+  padding: 22px 0;
+  font-size: 12px;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+@media(max-width:760px) {
+  .wrap { width: calc(100% - 34px); }
+  .nav { min-height: 72px; }
+  .brand img { width: 62px; height: 60px; }
+  nav { gap: 12px; }
+  nav a:not(.contact-link) { display: none; }
+  nav .contact-link { padding: 10px 12px; font-size: 11px; }
+  .hero-grid { grid-template-columns: 1fr; gap: 25px; padding: 50px 0; }
+  h1 { font-size: clamp(44px,12vw,64px); }
+  .hero-logo img { width: min(78%,320px); }
+  section { padding: 58px 0; }
+  .about-grid { grid-template-columns: 1fr; gap: 20px; }
+  .about-logo { display: flex; align-items: center; gap: 18px; }
+  .about-logo img { width: 85px; height: 85px; }
+  .about-quote { font-size: 23px; }
+  .video-heading { display: block; }
+  .video-heading .lead { margin-top: 12px; }
+  .video-box { padding: 5px; }
+  .video-caption { font-size: 9px; flex-wrap: wrap; }
+  .events-grid { grid-template-columns: 1fr; }
+  .event { padding: 23px 0; }
+  .event + .event { border-left: 0; border-top: 1px solid #e8d9d6; padding-left: 0; }
+  .gallery-note { padding: 18px; gap: 15px; }
+  .gallery-note img { width: 65px; height: 65px; }
+}
+@media(prefers-reduced-motion:reduce) {
+  *,*::before,*::after { scroll-behavior:auto !important; animation-duration:.01ms !important; }
+}
+</style>
+</head>
+
+<body class="intro-active">
+
+<!-- ABERTURA: LOGO E ENERGIA DOURADA -->
+<div id="intro" aria-label="Abertura da Tribo das Rosas">
+  <img id="intro-logo" src="assets/logo-tribo-das-rosas.png" alt="Tribo das Rosas">
+</div>
+
+<div id="site">
+<header>
+  <div class="wrap nav">
+    <a class="brand" href="#inicio" aria-label="Tribo das Rosas">
+      <img src="assets/logo-tribo-das-rosas.png" alt="Logotipo da Tribo das Rosas">
+    </a>
+    <nav aria-label="Navegação principal">
+      <a href="#tribo">A Tribo</a>
+      <a href="#video">Vídeo</a>
+      <a href="#encontros">Encontros</a>
+      <a class="contact-link" href="#contato">Contato</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero" id="inicio">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="eyebrow">Presença · vínculo · transformação</div>
+        <h1>Há força naquilo que floresce juntas.</h1>
+        <p>Um espaço para dar lugar às histórias, aos encontros e à potência de mulheres que caminham lado a lado.</p>
+        <a class="button" href="#tribo">Conheça a Tribo ↗</a>
+      </div>
+      <div class="hero-logo">
+        <img src="assets/logo-tribo-das-rosas.png" alt="Logotipo original da Tribo das Rosas">
+      </div>
+    </div>
+  </section>
+
+  <section id="tribo">
+    <div class="wrap about-grid">
+      <div class="about-logo">
+        <img src="assets/logo-tribo-das-rosas.png" alt="Logotipo da Tribo das Rosas">
+        <div><div class="section-label">Tribo das Rosas</div><p>Um caminho compartilhado.</p></div>
+      </div>
+      <div>
+        <div class="section-label">Sobre nós</div>
+        <h2 class="section-title">Um encontro entre histórias, coragem e acolhimento.</h2>
+        <div class="about-copy">
+          <div class="about-quote">“Quando mulheres se encontram de verdade, algo começa a mudar.”</div>
+          <p>Este espaço é dedicado às pessoas, às experiências e às iniciativas que dão vida à Tribo das Rosas. Um registro da nossa caminhada, construído com histórias reais, presença e conexão.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="video-section" id="video">
+    <div class="wrap">
+      <div class="video-heading">
+        <div><div class="section-label">Em movimento</div><h2 class="section-title">A Tribo, em primeira pessoa.</h2></div>
+        <p class="lead">Dê o play e conheça um pouco mais da nossa história.</p>
+      </div>
+      <div class="video-box">
+        <video controls playsinline preload="metadata">
+          <source src="assets/video-tribo-das-rosas.mp4" type="video/mp4">
+          Seu navegador não consegue reproduzir este vídeo.
+        </video>
+        <div class="video-caption"><span>Tribo das Rosas</span><span>Histórias que nos aproximam</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="encontros">
+    <div class="wrap">
+      <div class="section-label">Nossa caminhada</div>
+      <h2 class="section-title">O que nos reúne também nos transforma.</h2>
+      <p class="lead">Encontros e iniciativas que merecem ser lembrados, compartilhados e celebrados.</p>
+      <div class="events-grid">
+        <article class="event"><div class="event-number">01</div><h3>Encontros</h3><p>Espaços de troca, escuta e acolhimento entre mulheres.</p></article>
+        <article class="event"><div class="event-number">02</div><h3>Iniciativas</h3><p>Ações que dão visibilidade às nossas causas e histórias.</p></article>
+        <article class="event"><div class="event-number">03</div><h3>Memórias</h3><p>Registros de pessoas e momentos que fazem parte da Tribo.</p></article>
+      </div>
+    </div>
+  </section>
+
+  <section class="gallery" id="galeria">
+    <div class="wrap">
+      <div class="section-label">Registros</div>
+      <h2 class="section-title">Momentos que ficam com a gente.</h2>
+      <p class="lead">Este espaço será ampliado com fotografias reais, registros dos encontros e artes dos próximos eventos.</p>
+      <div class="gallery-note">
+        <img src="assets/logo-tribo-das-rosas.png" alt="">
+        <div><h3>Nossa história continua.</h3><p>Em breve, mais imagens e memórias da caminhada da Tribo das Rosas.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="contact" id="contato">
+    <div class="section-label">Vamos continuar essa conversa?</div>
+    <h2>Há espaço para mais histórias florescerem.</h2>
+    <p>Acompanhe as iniciativas e os próximos encontros da Tribo das Rosas.</p>
+    <a class="button" href="mailto:contato@tribodasrosas.com.br">Entre em contato</a>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© <span id="year"></span> Tribo das Rosas</span>
+    <span>Feito com presença e propósito.</span>
+  </div>
+</footer>
+</div>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const intro = document.getElementById("intro");
+const site = document.getElementById("site");
+const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+function releaseIntro() {
+  document.body.classList.remove("intro-active");
+  site.classList.add("visible");
+  intro.classList.add("dissolve");
+  setTimeout(() => intro.remove(), 1600);
+}
+
+function makeGoldenEnergy() {
+  const count = 100;
+  for (let i = 0; i < count; i++) {
+    const particle = document.createElement("span");
+    particle.className = "particle";
+    const angle = Math.random() * Math.PI * 2;
+    const distance = 100 + Math.random() * Math.min(window.innerWidth * .48, 420);
+    particle.style.setProperty("--x", `${Math.cos(angle) * distance}px`);
+    particle.style.setProperty("--y", `${Math.sin(angle) * distance}px`);
+    particle.style.setProperty("--size", `${2 + Math.random() * 5}px`);
+    particle.style.setProperty("--duration", `${.8 + Math.random() * 1.1}s`);
+    particle.style.background = Math.random() > .45 ? "#f3d783" : "#b98a36";
+    particle.style.animationDelay = `${Math.random() * .35}s`;
+    intro.appendChild(particle);
+    particle.addEventListener("animationend", () => particle.remove(), {once:true});
+  }
+}
+
+if (reduceMotion) {
+  releaseIntro();
+} else {
+  window.addEventListener("load", () => {
+    setTimeout(() => {
+      makeGoldenEnergy();
+      intro.classList.add("dissolve");
+      setTimeout(() => {
+        document.body.classList.remove("intro-active");
+        site.classList.add("visible");
+        setTimeout(() => intro.remove(), 1500);
+      }, 750);
+    }, 2400);
+  });
+}
+</script>
+</body>
+</html>
